@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "scripts": {
+    "compile-css": "postcss resources/css/app.css -o public/css/app.css",
+    "dev": "cross-env NODE_ENV=development npm run compile-css",
+    "production": "cross-env NODE_ENV=production npm run compile-css"
+  },
+  "dependencies": {
+    "tailwindcss": "^1.2.0"
+  },
+  "devDependencies": {
+    "@fullhuman/postcss-purgecss": "^2.1.0",
+    "cross-env": "^7.0.2",
+    "postcss-cli": "^7.1.0"
+  }
+}

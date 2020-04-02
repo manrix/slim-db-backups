@@ -1,0 +1,29 @@
+{% extends 'main.html.twig' %}
+
+{% block main_content %}
+    <div class="min-h-screen border-t-4 border-blue-700">
+        <div class="md:w-1/2 mx-auto px-3">
+            {{ include('backend/_partials/header.html.twig') }}
+            <main>
+                {% block content %}{% endblock %}
+            </main>
+            {{ include('backend/_partials/footer.html.twig') }}
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            const deleteButtons = document.querySelectorAll('.remove');
+            deleteButtons.forEach((element) => {
+                element.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    let message = this.dataset.message ?? 'Are you sure to remove the item ?';
+                    if (confirm(message)) {
+                        this.parentNode.submit();
+                    }
+                });
+            })
+        })();
+    </script>
+    {% block scripts %}{% endblock %}
+{% endblock %}

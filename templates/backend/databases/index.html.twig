@@ -1,0 +1,76 @@
+{% extends 'layouts/backend.html.twig' %}
+
+{% block title %}Databases{% endblock %}
+
+{% block content %}
+    <div class="w-full mb-3 flex justify-end items-center">
+        <a href="{{ url_for('database.create') }}"
+           class="bg-green-500 hover:bg-green-700 text-white text-sm font-semibold uppercase py-2 px-3 rounded focus:outline-none focus:shadow-outline">Add Database</a>
+    </div>
+    {% if databases|length %}
+        <div class="flex flex-col">
+            <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-300">
+                    <table class="min-w-full">
+                        <thead>
+                        <tr>
+                            <th class="px-6 py-3 border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                                #
+                            </th>
+                            <th class="px-6 py-3 border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                                Name
+                            </th>
+                            <th class="px-6 py-3 border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                                Driver
+                            </th>
+                            <th class="px-6 py-3 border-b border-gray-300 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-700 uppercase tracking-wider">
+                                User
+                            </th>
+                            <th class="px-6 py-3 border-b border-gray-300 bg-gray-50"></th>
+                        </tr>
+                        </thead>
+                        <tbody class="bg-white">
+                        {% for database in databases %}
+                            <tr>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">
+                                    <div class="text-sm leading-5 text-gray-900">{{ database.id }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300">
+                                    <div class="text-sm leading-5 text-gray-900">{{ database.name }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300 text-sm leading-5 text-gray-900">
+                                    {{ database.driver }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-300 text-sm leading-5 text-gray-900">
+                                    {{ database.user ?: '-' }}
+                                </td>
+                                <td class="px-6 py-4 whitespace-no-wrap text-right border-b border-gray-300 text-sm leading-5 font-medium">
+                                    <div class="flex flex-no-wrap justify-end">
+                                        <form action="{{ url_for('database.backup', {id: database.id}) }}" method="post">
+                                            {{ csrf() }}
+                                            <button title="Backup" type="submit" class="text-green-600 hover:text-indigo-900 focus:outline-none focus:underline mr-3">
+                                                {{ include('icons/repeat.svg.twig', {'size': 18}) }}
+                                            </button>
+                                        </form>
+                                        <a href="{{ url_for('database.edit', {id: database.id}) }}" title="Edit" class="text-indigo-600 hover:text-indigo-900 focus:outline-none focus:underline mr-3">
+                                            {{ include('icons/edit.svg.twig', {'size': 18}) }}
+                                        </a>
+                                        <form action="{{ url_for('database.delete', {id: database.id}) }}" method="post">
+                                            {{ csrf() }}
+                                            <a href="#" title="Remove" role="button" data-message="Are you sure to remove the database {{ database.name }} ?" class="text-red-600 hover:text-red-900 focus:outline-none focus:underline remove">
+                                                {{ include('icons/trash.svg.twig', {'size': 18}) }}
+                                            </a>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        {{ include('backend/_partials/empty.html.twig') }}
+    {% endif %}
+{% endblock %}

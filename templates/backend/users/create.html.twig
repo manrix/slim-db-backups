@@ -1,0 +1,9 @@
+{% extends 'layouts/backend.html.twig' %}
+
+{% block title %}Add User{% endblock %}
+
+{% block content %}
+    <div class="w-full flex justify-center bg-white rounded shadow p-5">
+        {{ include('backend/users/_partials/form.html.twig', {'action': url_for('user.store')}) }}
+    </div>
+{% endblock %}
